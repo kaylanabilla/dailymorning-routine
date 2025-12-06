@@ -2,126 +2,160 @@ import pickle
 import streamlit as st
 import pandas as pd
 
-# ===================== PAGE CONFIG ==========================
+# ==========================================
+# PAGE CONFIG
+# ==========================================
 st.set_page_config(
-    page_title="Prediksi Productivity Score",
-    page_icon="🌿",
-    layout="centered"
+    page_title="Morning Routine Productivity",
+    page_icon="🌅",
+    layout="wide"
 )
 
-# ===================== ULTRA PREMIUM CSS ==========================
+# ==========================================
+# CUSTOM CSS (SUPER PREMIUM)
+# ==========================================
 st.markdown("""
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
 * {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Background Gradient */
+/* Background full */
 body {
-    background: linear-gradient(135deg, #d9fdd3 0%, #ffffff 100%) !important;
+    background: #f3f8f3;
 }
 
-/* Center Container */
-.container {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    padding: 35px;
+/* Hero Section Background Image */
+.hero {
+    background-image: url('morning_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 40px;
     border-radius: 25px;
-    max-width: 820px;
-    margin: auto;
-    margin-top: 40px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-    border: 1px solid rgba(255,255,255,0.6);
-    animation: fadeIn 0.8s ease-out;
+    color: white;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    margin-bottom: 40px;
+    animation: fadeHero 1.3s ease-out;
 }
 
-/* Fade In Animation */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(12px);}
+@keyframes fadeHero {
+    from {opacity: 0; transform: translateY(-25px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
-/* Title */
-h1 {
-    text-align: center;
-    font-weight: 900;
-    color: #1d6f42;
-    margin-bottom: 10px;
+.hero h1 {
+    font-size: 56px;
+    font-weight: 800;
 }
 
-/* Subtitle */
-.subtitle {
-    text-align: center;
-    font-size: 15px;
-    color: #3b5146;
-    margin-bottom: 25px;
+.hero p {
+    font-size: 20px;
+    max-width: 600px;
+    opacity: 0.95;
 }
 
-/* Input Label Styling */
+/* Form Card */
+.form-card {
+    background: white;
+    padding: 40px;
+    border-radius: 22px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+    margin-bottom: 50px;
+    animation: fadeUp 0.7s ease-out;
+}
+
+@keyframes fadeUp {
+    from {opacity: 0; transform: translateY(22px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Form Label */
 label {
     font-weight: 600 !important;
-    color: #2e4d35 !important;
+    color: #245b3c !important;
 }
 
-/* Input Box Style */
-.stTextInput > div > input,
+/* Input boxes */
 .stNumberInput > div > input,
+.stTextInput > div > input,
 .stSelectbox > div > div > div {
-    background: #ffffffc9 !important;
-    backdrop-filter: blur(6px);
     border-radius: 14px !important;
-    padding: 10px !important;
-    border: 2px solid #e6f4e6;
-    transition: all 0.25s ease;
+    padding: 12px !important;
+    background: #f7fef7 !important;
+    border: 2px solid #d9f4d9 !important;
+    transition: 0.25s;
 }
 
-.stTextInput > div > input:focus,
 .stNumberInput > div > input:focus,
-.stSelectbox > div > div > div:hover {
-    border-color: #83c89a !important;
+.stTextInput > div > input:focus,
+.stSelectbox > div > div:hover {
+    border-color: #7bcf96 !important;
     box-shadow: 0 0 0 3px rgba(116, 202, 145, 0.3) !important;
 }
 
-/* Predict Button */
+/* Button */
 .stButton > button {
-    width: 100%;
     background: linear-gradient(135deg, #7dd89c, #56b67a);
     color: white;
-    padding: 14px;
-    border-radius: 15px;
-    font-size: 17px;
+    width: 100%;
+    border-radius: 14px;
+    font-size: 18px;
     font-weight: 600;
+    padding: 14px;
     border: none;
-    transition: 0.3s ease;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: 0.3s;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    margin-top: 25px;
 }
 
 .stButton > button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
 }
 
 /* Success Box */
 .stSuccess {
     border-radius: 14px !important;
-    padding: 15px;
 }
+
+/* Divider */
+.divider {
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, #d7f5df, #7ed9a4, #d7f5df);
+    margin: 40px 0;
+    border-radius: 10px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-
-# ===================== LOAD MODEL ==========================
+# ==========================================
+# LOAD MODEL
+# ==========================================
 model = pickle.load(open('morningdataset_model.sav', 'rb'))
 
-# ====================== TITLE ==========================
-st.markdown("<div class='container'>", unsafe_allow_html=True)
-st.title("🌿 Morning Productivity Predictor")
-st.markdown("<p class='subtitle'>Masukkan aktivitas pagimu untuk memprediksi skor produktivitas (1–10).</p>", unsafe_allow_html=True)
+# ==========================================
+# HERO SECTION
+# ==========================================
+st.markdown("""
+<div class="hero">
+    <h1>🌅 Morning Productivity Predictor</h1>
+    <p>Tingkatkan produktivitasmu dengan memahami bagaimana rutinitas pagimu
+    mempengaruhi performamu sepanjang hari.</p>
+</div>
+""", unsafe_allow_html=True)
 
+# ==========================================
+# FORM CARD
+# ==========================================
+st.markdown("<div class='form-card'>", unsafe_allow_html=True)
 
-# ===================== FORM ==========================
+st.subheader("📝 Isi Rutinitas Pagi Kamu")
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -130,16 +164,16 @@ with col1:
     exercise = st.number_input("Exercise (mins)", min_value=0, max_value=300)
 
 with col2:
-    breakfast = st.selectbox("Breakfast Type", 
-                             ["Heavy", "Light", "Protein-rich", "Skipped"])
+    breakfast = st.selectbox("Breakfast Type", ["Heavy", "Light", "Protein-rich", "Skipped"])
     journaling = st.selectbox("Journaling (Y/N)", ["Y", "N"])
     work_start = st.selectbox("Work Start Time", ["Early", "Normal", "Late"])
     mood = st.selectbox("Mood", ["Bad", "Neutral", "Good"])
 
 notes = st.text_input("Notes", value="None")
 
-
-# ===================== DATAFRAME ==========================
+# ==========================================
+# PREDICTION INPUT
+# ==========================================
 input_df = pd.DataFrame([{
     "Sleep Duration (hrs)": sleep_duration,
     "Meditation (mins)": meditation,
@@ -151,11 +185,13 @@ input_df = pd.DataFrame([{
     "Notes": notes
 }])
 
-# ===================== PREDIKSI ==========================
+# ==========================================
+# PREDICT BUTTON
+# ==========================================
 if st.button("Prediksi Productivity Score"):
     try:
-        prediction = model.predict(input_df)[0]
-        st.success(f"🌟 Productivity Score kamu: **{prediction:.2f} / 10** 🌟")
+        result = model.predict(input_df)[0]
+        st.success(f"🌟 Productivity Score kamu adalah: **{result:.2f} / 10** 🌟")
     except Exception as e:
         st.error("Terjadi error saat memproses prediksi.")
         st.error(str(e))
