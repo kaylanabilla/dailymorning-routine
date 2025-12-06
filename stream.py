@@ -92,9 +92,9 @@ st.markdown("""
 # ====================== 3 SMALL AESTHETIC HEADER IMAGES ==========================
 st.markdown("""
     <div class="header-gallery">
-        <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?q=80&w=600">
-        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600">
-        <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?q=80&w=600">
+        <img src="https://id.pinterest.com/pin/20336635809740856/">
+        <img src="https://id.pinterest.com/pin/23503229299805423/">
+        <img src="https://id.pinterest.com/pin/23503229299805714/">
     </div>
 """, unsafe_allow_html=True)
 
