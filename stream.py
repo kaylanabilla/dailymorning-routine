@@ -2,15 +2,81 @@ import pickle
 import streamlit as st
 import pandas as pd
 
+# ===================== PAGE CONFIG ==========================
+st.set_page_config(
+    page_title="Prediksi Productivity Score",
+    page_icon="✨",
+    layout="centered"
+)
+
+# ===================== CUSTOM CSS ==========================
+st.markdown("""
+<style>
+/* Background soft */
+body {
+    background-color: #f7fff7;
+}
+
+/* Card */
+.container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    margin-top: 25px;
+}
+
+/* Title */
+h1 {
+    color: #2e6f40;
+    text-align: center;
+    font-weight: 800;
+}
+
+/* Labels */
+label, .stSelectbox label, .stNumberInput label, .stTextInput label {
+    font-weight: 600 !important;
+    color: #2f4f2f !important;
+}
+
+/* Button */
+.stButton>button {
+    background-color: #7ac79f;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.stButton>button:hover {
+    background-color: #68b18a;
+}
+
+/* Success Box */
+.stSuccess {
+    border-radius: 12px;
+}
+
+/* Input Box styling */
+.stTextInput>div>input, 
+.stNumberInput>div>input, 
+.stSelectbox>div>div>div {
+    border-radius: 10px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # ===================== LOAD MODEL ==========================
 model = pickle.load(open('morningdataset_model.sav', 'rb'))
 
-# ====================== TITLE WEB ==========================
-st.title('Prediksi Productivity Score – Morning Routine')
+# ====================== TITLE ==========================
+st.markdown("<div class='container'>", unsafe_allow_html=True)
+st.title('✨ Prediksi Productivity Score – Morning Routine ✨')
+st.write("Isi rutinitas pagimu di bawah ini, dan sistem akan memprediksi skor produktivitasmu (1–10).")
 
-st.write("Masukkan rutinitas pagi kamu untuk memprediksi produktivitas (1–10).")
-
-# ===================== INPUT FORM SESUAI FITUR TRAINING ==========================
+# ===================== INPUT FORM ==========================
 
 col1, col2 = st.columns(2)
 
@@ -28,7 +94,7 @@ with col2:
 
 notes = st.text_input("Notes", value="None")
 
-# ===================== KONVERSI KE DATAFRAME ==========================
+# ===================== DATAFRAME ==========================
 input_df = pd.DataFrame([{
     "Sleep Duration (hrs)": sleep_duration,
     "Meditation (mins)": meditation,
@@ -44,7 +110,9 @@ input_df = pd.DataFrame([{
 if st.button("Prediksi Productivity Score"):
     try:
         prediction = model.predict(input_df)[0]
-        st.success(f"Prediksi Productivity Score kamu adalah: **{prediction:.2f} / 10**")
+        st.success(f"✨ Prediksi Productivity Score kamu adalah: **{prediction:.2f} / 10** ✨")
     except Exception as e:
         st.error("Terjadi error saat memproses prediksi.")
         st.error(str(e))
+
+st.markdown("</div>", unsafe_allow_html=True)
