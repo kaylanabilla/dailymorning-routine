@@ -5,79 +5,123 @@ import pandas as pd
 # ===================== PAGE CONFIG ==========================
 st.set_page_config(
     page_title="Prediksi Productivity Score",
-    page_icon="✨",
+    page_icon="🌿",
     layout="centered"
 )
 
-# ===================== CUSTOM CSS ==========================
+# ===================== ULTRA PREMIUM CSS ==========================
 st.markdown("""
 <style>
-/* Background soft */
-body {
-    background-color: #f7fff7;
+
+* {
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Card */
+/* Background Gradient */
+body {
+    background: linear-gradient(135deg, #d9fdd3 0%, #ffffff 100%) !important;
+}
+
+/* Center Container */
 .container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 35px;
+    border-radius: 25px;
+    max-width: 820px;
+    margin: auto;
+    margin-top: 40px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.6);
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(12px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 /* Title */
 h1 {
-    color: #2e6f40;
     text-align: center;
-    font-weight: 800;
+    font-weight: 900;
+    color: #1d6f42;
+    margin-bottom: 10px;
 }
 
-/* Labels */
-label, .stSelectbox label, .stNumberInput label, .stTextInput label {
+/* Subtitle */
+.subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #3b5146;
+    margin-bottom: 25px;
+}
+
+/* Input Label Styling */
+label {
     font-weight: 600 !important;
-    color: #2f4f2f !important;
+    color: #2e4d35 !important;
 }
 
-/* Button */
-.stButton>button {
-    background-color: #7ac79f;
+/* Input Box Style */
+.stTextInput > div > input,
+.stNumberInput > div > input,
+.stSelectbox > div > div > div {
+    background: #ffffffc9 !important;
+    backdrop-filter: blur(6px);
+    border-radius: 14px !important;
+    padding: 10px !important;
+    border: 2px solid #e6f4e6;
+    transition: all 0.25s ease;
+}
+
+.stTextInput > div > input:focus,
+.stNumberInput > div > input:focus,
+.stSelectbox > div > div > div:hover {
+    border-color: #83c89a !important;
+    box-shadow: 0 0 0 3px rgba(116, 202, 145, 0.3) !important;
+}
+
+/* Predict Button */
+.stButton > button {
+    width: 100%;
+    background: linear-gradient(135deg, #7dd89c, #56b67a);
     color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 12px;
+    padding: 14px;
+    border-radius: 15px;
+    font-size: 17px;
+    font-weight: 600;
     border: none;
-    font-size: 16px;
-    transition: 0.2s;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
-.stButton>button:hover {
-    background-color: #68b18a;
+.stButton > button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 
 /* Success Box */
 .stSuccess {
-    border-radius: 12px;
-}
-
-/* Input Box styling */
-.stTextInput>div>input, 
-.stNumberInput>div>input, 
-.stSelectbox>div>div>div {
-    border-radius: 10px !important;
+    border-radius: 14px !important;
+    padding: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ===================== LOAD MODEL ==========================
 model = pickle.load(open('morningdataset_model.sav', 'rb'))
 
 # ====================== TITLE ==========================
 st.markdown("<div class='container'>", unsafe_allow_html=True)
-st.title('✨ Prediksi Productivity Score – Morning Routine ✨')
-st.write("Isi rutinitas pagimu di bawah ini, dan sistem akan memprediksi skor produktivitasmu (1–10).")
+st.title("🌿 Morning Productivity Predictor")
+st.markdown("<p class='subtitle'>Masukkan aktivitas pagimu untuk memprediksi skor produktivitas (1–10).</p>", unsafe_allow_html=True)
 
-# ===================== INPUT FORM ==========================
 
+# ===================== FORM ==========================
 col1, col2 = st.columns(2)
 
 with col1:
@@ -93,6 +137,7 @@ with col2:
     mood = st.selectbox("Mood", ["Bad", "Neutral", "Good"])
 
 notes = st.text_input("Notes", value="None")
+
 
 # ===================== DATAFRAME ==========================
 input_df = pd.DataFrame([{
@@ -110,7 +155,7 @@ input_df = pd.DataFrame([{
 if st.button("Prediksi Productivity Score"):
     try:
         prediction = model.predict(input_df)[0]
-        st.success(f"✨ Prediksi Productivity Score kamu adalah: **{prediction:.2f} / 10** ✨")
+        st.success(f"🌟 Productivity Score kamu: **{prediction:.2f} / 10** 🌟")
     except Exception as e:
         st.error("Terjadi error saat memproses prediksi.")
         st.error(str(e))
