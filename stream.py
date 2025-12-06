@@ -8,41 +8,47 @@ model = pickle.load(open('morningdataset_model.sav', 'rb'))
 # ===================== CUSTOM CSS SUPER AESTHETIC ==========================
 st.markdown("""
     <style>
-        /* GLOBAL PAGE */
         body {
             background: linear-gradient(135deg, #c8f7dc, #e9fff4);
             font-family: 'Poppins', sans-serif;
         }
 
-        .main-container {
-            padding: 0 2rem;
+        .header-gallery {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
-        /* HEADER IMAGE */
-        .header-img {
-            width: 100%;
-            max-width: 600px;
-            display: block;
-            margin: 0 auto 20px auto;
-            border-radius: 20px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        .header-gallery img {
+            width: 30%;
+            max-width: 180px;
+            border-radius: 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            object-fit: cover;
         }
 
-        /* TITLE */
+        @media(max-width: 600px){
+            .header-gallery img {
+                width: 28%;
+                max-width: 110px;
+            }
+        }
+
         .title-box {
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         .title-box h1 {
-            font-size: 42px;
+            font-size: 36px;
             font-weight: 800;
             color: #2f6f4e;
         }
 
-        /* FORM CARD */
         .card {
-            background: #ffffffcc;
+            background: #ffffffdd;
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
@@ -50,13 +56,11 @@ st.markdown("""
             margin-bottom: 25px;
         }
 
-        /* LABELS */
         label {
             font-weight: 600 !important;
             color: #2f6f4e !important;
         }
 
-        /* BUTTON */
         .stButton>button {
             background: linear-gradient(90deg, #4fd19c, #58e4b0);
             color: white;
@@ -72,7 +76,6 @@ st.markdown("""
             transform: scale(1.02);
         }
 
-        /* RESULT BOX */
         .result-box {
             background: #dffff0;
             border-left: 6px solid #4fd19c;
@@ -83,16 +86,19 @@ st.markdown("""
             font-weight: 600;
             box-shadow: 0 4px 18px rgba(0,0,0,0.08);
         }
-
     </style>
 """, unsafe_allow_html=True)
 
-# ====================== HEADER IMAGE ==========================
+# ====================== 3 SMALL AESTHETIC HEADER IMAGES ==========================
 st.markdown("""
-    <img class="header-img" src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?auto=format&fit=crop&w=1200&q=80">
+    <div class="header-gallery">
+        <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?q=80&w=600">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600">
+        <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?q=80&w=600">
+    </div>
 """, unsafe_allow_html=True)
 
-# ====================== TITLE WEB ==========================
+# ====================== TITLE ==========================
 st.markdown("""
 <div class="title-box">
     <h1>🌿 Morning Routine – Productivity Predictor</h1>
@@ -101,7 +107,6 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
-
 
 # ===================== INPUT FORM ==========================
 st.markdown("<div class='card'>", unsafe_allow_html=True)
@@ -122,7 +127,6 @@ with col2:
 notes = st.text_input("Notes", value="None")
 
 st.markdown("</div>", unsafe_allow_html=True)
-
 
 # ===================== PREDIKSI ==========================
 if st.button("Prediksi Productivity Score"):
