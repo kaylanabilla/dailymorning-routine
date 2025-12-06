@@ -144,11 +144,27 @@ if st.button("Prediksi Productivity Score"):
 
         prediction = model.predict(input_df)[0]
 
+        # ===================== PESAN & QUOTES OTOMATIS ======================
+        if prediction < 4:
+            message = "😴 Kamu butuh istirahat lebih dan rutinitas kecil bisa bantu ningkatin mood! Semangat ya ❤️"
+            quote = "🌿 *“Take a deep breath. You’re getting there, even if it's slow.”*"
+        elif prediction < 7:
+            message = "😊 Produktivitas kamu sudah lumayan! Terus jaga konsistensi rutinitas pagimu ya ✨"
+            quote = "✨ *“Small progress is still progress. Keep going.”*"
+        else:
+            message = "🔥 Kamu produktif banget hari ini! Rutinitas pagimu sudah keren — pertahankan! 💪"
+            quote = "🌞 *“You are capable of amazing things.”*"
+
+        # ===================== TAMPILKAN DI WEB ======================
         st.markdown(f"""
             <div class='result-box'>
                 Prediksi Productivity Score kamu adalah:
                 <br><br>
-                <span style='font-size:28px;'>⭐ {prediction:.2f} / 10</span>
+                <span style='font-size:30px; font-weight:700;'>⭐ {prediction:.2f} / 10</span>
+                <br><br>
+                <span style='font-size:18px;'>{message}</span>
+                <br><br>
+                <span style='font-size:16px; opacity:0.9;'><i>{quote}</i></span>
             </div>
         """, unsafe_allow_html=True)
 
